@@ -16,6 +16,7 @@ Check with the user that these seams match their expectations.
 
 3. Write the spec using the template below.
 
+```markdown
 <spec-template>
 
 ## Problem Statement
@@ -71,3 +72,4 @@ A description of the things that are out of scope for this spec.
 Any further notes about the feature.
 
 </spec-template>
+```

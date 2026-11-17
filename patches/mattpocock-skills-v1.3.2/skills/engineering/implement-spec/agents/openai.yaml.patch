@@ -1,0 +1,11 @@
+diff --git a/skills/engineering/implement-spec/agents/openai.yaml b/skills/engineering/implement-spec/agents/openai.yaml
+index f5e91af..2b071eb 100644
+--- a/skills/engineering/implement-spec/agents/openai.yaml
++++ b/skills/engineering/implement-spec/agents/openai.yaml
+@@ -1,5 +1,5 @@
+ interface:
+   display_name: "Implement Spec"
+-  short_description: "Implement the result of /to-spec and /to-tickets in code."
++  short_description: "Implement a whole spec on an integration branch"
+ policy:
+   allow_implicit_invocation: false

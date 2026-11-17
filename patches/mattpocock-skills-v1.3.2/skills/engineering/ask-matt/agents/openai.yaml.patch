@@ -1,0 +1,11 @@
+diff --git a/skills/engineering/ask-matt/agents/openai.yaml b/skills/engineering/ask-matt/agents/openai.yaml
+index 5c60d51..cba9116 100644
+--- a/skills/engineering/ask-matt/agents/openai.yaml
++++ b/skills/engineering/ask-matt/agents/openai.yaml
+@@ -1,5 +1,5 @@
+ interface:
+-  display_name: "Ask Matt"
++  display_name: "Ask Help"
+   short_description: "Find the right skill or workflow"
+ policy:
+   allow_implicit_invocation: false

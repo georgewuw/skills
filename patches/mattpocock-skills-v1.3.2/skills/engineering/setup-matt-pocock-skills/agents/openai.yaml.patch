@@ -1,0 +1,11 @@
+diff --git a/skills/engineering/setup-matt-pocock-skills/agents/openai.yaml b/skills/engineering/setup-matt-pocock-skills/agents/openai.yaml
+index 65a0da8..fb68ce2 100644
+--- a/skills/engineering/setup-matt-pocock-skills/agents/openai.yaml
++++ b/skills/engineering/setup-matt-pocock-skills/agents/openai.yaml
+@@ -1,5 +1,5 @@
+ interface:
+-  display_name: "Setup Matt Pocock Skills"
++  display_name: "Project Preset for Skills"
+   short_description: "Configure a repo for the skills"
+ policy:
+   allow_implicit_invocation: false

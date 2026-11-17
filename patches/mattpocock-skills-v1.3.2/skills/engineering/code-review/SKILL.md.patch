@@ -1,0 +1,13 @@
+diff --git a/skills/engineering/code-review/SKILL.md b/skills/engineering/code-review/SKILL.md
+index 83183e0..4fc0116 100644
+--- a/skills/engineering/code-review/SKILL.md
++++ b/skills/engineering/code-review/SKILL.md
+@@ -10,8 +10,6 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
+ 
+ Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings. Start every sub-agent with a fresh context window.
+ 
+-The issue tracker should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
+-
+ ## Process
+ 
+ ### 1. Pin the fixed point

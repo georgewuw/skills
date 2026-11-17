@@ -1,3 +1,5 @@
 interface:
   display_name: "Redesign Existing Projects"
   short_description: "Upgrades existing websites and apps to premium quality."
+policy:
+  allow_implicit_invocation: false
