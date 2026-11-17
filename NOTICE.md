@@ -2,7 +2,7 @@
 
 本文件记录本仓库每一项内容的来源：上游仓库地址、上游具体路径、对应 commit，以及本仓库是否改动过它。
 
-核对方法：以 `git hash-object` 计算本地文件的对象哈希，与上游该 commit 的 git tree 中同路径文件的对象哈希逐字节比对。比对时间 2026-11-17，比对基准为下表两个 commit 的原始对象（LF 内容），不经过工作区换行转换。
+核对方法：以 `git hash-object` 计算本地文件的对象哈希，与上游该 commit 的 git tree 中同路径文件的对象哈希逐字节比对。比对时间 2026-11-17，比对基准为下表各 commit 的原始对象（LF 内容），不经过工作区换行转换。
 
 ## 一、来源总表
 
@@ -10,10 +10,11 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | S1 | https://github.com/mattpocock/skills | `v1.3.2` | `d1478fcb140db0b93c0c8df17bcfd311844749d0` | 2026-10-29 | MIT | 22 |
 | S2 | https://github.com/Leonxlnx/taste-skill | `v2.1.0` | `a206bbf75a9d80554c0de17c1198ee2fbbc555aa` | 2026-10-18 | MIT | 1 |
+| S3 | https://github.com/vercel-labs/skills | 未打标签 | `57217cf86ba38148a57af9e90d14a4c049558330` | 2026-11-17 | MIT | 1 |
 
-两个来源仓库均为 MIT 许可，与本仓库 [LICENSE](./LICENSE) 兼容。下表 commit 列使用 7 位短哈希，完整哈希见本节。
+三个来源仓库均为 MIT 许可，与本仓库 [LICENSE](./LICENSE) 兼容。下表 commit 列使用 7 位短哈希，完整哈希见本节。S3 上游未发布任何标签，基线固定为上表 commit，与 `main` 之后的提交无关。
 
-## 二、技能来源（23 项）
+## 二、技能来源（24 项）
 
 状态取值：**原样** 表示该技能下所有文件与上游逐字节一致；**部分修改** 表示该技能下至少一个文件被改动；**改名** 表示本地目录名或技能名与上游不同。所有改动均可复现，补丁见 [patches/README.md](./patches/README.md)。
 
@@ -21,7 +22,7 @@
 
 | 技能 | 本仓库路径 | 上游路径 | commit | 状态 | 差异与补丁 |
 | --- | --- | --- | --- | --- | --- |
-| ask-help | `skills/engineering/ask-help/` | `skills/engineering/ask-matt/` | `d1478fc` | 改名 + 部分修改 | `SKILL.md` 与 `agents/openai.yaml` 改名；删去 triage / wayfinder / wizard / to-questionnaire / pr 分支与真实 tracker 的 blocking links 表述，`/to-tickets` 保留但改按本地 `.scratch/` 描述；补入上游没有的 `redesign-existing-projects` 条目；`PHASE-BOUNDARIES.md` 原样。补丁：`skills/engineering/ask-matt/SKILL.md.patch`、`skills/engineering/ask-matt/agents/openai.yaml.patch` |
+| ask-help | `skills/engineering/ask-help/` | `skills/engineering/ask-matt/` | `d1478fc` | 改名 + 部分修改 | `SKILL.md` 与 `agents/openai.yaml` 改名；删去 triage / wayfinder / wizard / to-questionnaire / pr 分支与真实 tracker 的 blocking links 表述，`/to-tickets` 保留但改按本地 `.scratch/` 描述；补入上游没有的 `redesign-existing-projects` 与 `find-skills` 条目；`PHASE-BOUNDARIES.md` 原样。补丁：`skills/engineering/ask-matt/SKILL.md.patch`、`skills/engineering/ask-matt/agents/openai.yaml.patch` |
 | code-review | `skills/engineering/code-review/` | `skills/engineering/code-review/` | `d1478fc` | 部分修改 | 仅删去「提示运行 `/setup-matt-pocock-skills`」一行。补丁：`skills/engineering/code-review/SKILL.md.patch` |
 | codebase-design | `skills/engineering/codebase-design/` | `skills/engineering/codebase-design/` | `d1478fc` | 原样 | 无 |
 | diagnosing-bugs | `skills/engineering/diagnosing-bugs/` | `skills/engineering/diagnosing-bugs/` | `d1478fc` | 原样 | 无 |
@@ -50,6 +51,12 @@
 | --- | --- | --- | --- | --- | --- |
 | redesign-existing-projects | `skills/engineering/redesign-existing-projects/` | `skills/redesign-skill/` | `a206bbf` | 部分修改（另加本地文件） | `SKILL.md` 与上游仅差 frontmatter 一行 `disable-model-invocation: true`（改为用户自调用），其余逐字节一致，未改名；`agents/openai.yaml` 上游没有对应文件，为本地新增，内容为 Codex UI 元数据，含 `policy.allow_implicit_invocation: false`。补丁：`skills/redesign-skill/SKILL.md.patch`（位于 `patches/leonxlnx-taste-skill-v2.1.0/`） |
 
+### 来自 S3 vercel-labs/skills（commit `57217cf`）
+
+| 技能 | 本仓库路径 | 上游路径 | commit | 状态 | 差异与补丁 |
+| --- | --- | --- | --- | --- | --- |
+| find-skills | `skills/productivity/find-skills/` | `skills/find-skills/` | `57217cf` | 部分修改（另加本地文件） | `SKILL.md` 与上游仅差标点：上游第 48、49、69、70、71 行的破折号改为冒号，以符合本仓库正文不得使用破折号的约定，其余逐字节一致，未改名；`agents/openai.yaml` 上游没有对应文件，为本地新增，内容为 Codex UI 元数据，因模型可调用而不含 `policy` 块。补丁：`skills/find-skills/SKILL.md.patch`（位于 `patches/vercel-labs-skills-57217cf/`） |
+
 ## 三、仓库脚手架来源
 
 非技能类文件同样来自 S1 的 `v1.3.2`（commit `d1478fc`），区别只在于是否改动。
@@ -59,7 +66,7 @@
 | `CLAUDE.md` | `CLAUDE.md` | 部分修改 | 正文按本仓库裁剪；`AGENTS.md` 保持上游形态，即指向 `CLAUDE.md` 的符号链接（索引 mode `120000`，内容为 9 字节目标文本），本仓库不再落成普通文件；补丁：`CLAUDE.md.patch` |
 | `.agents/invocation.md` | `.agents/invocation.md` | 部分修改 | 用户自调用技能示例改为 `project-preset-for-skills`；补丁：`.agents/invocation.md.patch` |
 | `skills/engineering/README.md` | `skills/engineering/README.md` | 部分修改 | 删去未纳入技能的条目；补丁：`skills/engineering/README.md.patch` |
-| `skills/productivity/README.md` | `skills/productivity/README.md` | 部分修改 | 删去 `to-questionnaire` 条目；补丁：`skills/productivity/README.md.patch` |
+| `skills/productivity/README.md` | `skills/productivity/README.md` | 部分修改 | 删去 `to-questionnaire` 条目，补入 `find-skills` 条目；补丁：`skills/productivity/README.md.patch` |
 | `.gitignore` | `.gitignore` | 原样 | 无 |
 | `scripts/link-skills.sh` | `scripts/link-skills.sh` | 原样 | 无 |
 | `scripts/list-skills.sh` | `scripts/list-skills.sh` | 原样 | 无 |
@@ -76,8 +83,9 @@
 | 文件 | 说明 |
 | --- | --- |
 | `NOTICE.md` | 本文件 |
-| `patches/` | 相对 S1 与 S2 的改动记录与说明 |
+| `patches/` | 相对 S1、S2 与 S3 的改动记录与说明 |
 | `skills/engineering/redesign-existing-projects/agents/openai.yaml` | 为来自 S2 的技能补的 Codex UI 元数据 |
+| `skills/productivity/find-skills/agents/openai.yaml` | 为来自 S3 的技能补的 Codex UI 元数据 |
 
 ## 五、上游存在但本仓库未纳入
 

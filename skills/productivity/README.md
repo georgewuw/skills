@@ -15,5 +15,6 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 
 Model- or user-reachable (rich trigger phrasing so the model can reach for them).
 
+- **[find-skills](./find-skills/SKILL.md)**: Search the open skills ecosystem for an installable skill when nothing here covers the capability, then vet it by install count and source before recommending or installing.
 - **[grilling](./grilling/SKILL.md)**: Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved.
 - **[writing-for-agents](./writing-for-agents/SKILL.md)**: Writing documents for agents: skills, AGENTS.md/CLAUDE.md, and any doc an agent reaches by a pointer.

@@ -1,8 +1,8 @@
 diff --git a/skills/productivity/README.md b/skills/productivity/README.md
-index 6fd3754..906295c 100644
+index 6fd3754..0579a23 100644
 --- a/skills/productivity/README.md
 +++ b/skills/productivity/README.md
-@@ -9,7 +9,6 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
+@@ -9,12 +9,12 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
  - **[grill-me](./grill-me/SKILL.md)**: Get relentlessly interviewed about a plan or design until every branch of the design tree is resolved.
  - **[handoff](./handoff/SKILL.md)**: Compact the current conversation into a handoff document so another agent can continue the work.
  - **[teach](./teach/SKILL.md)**: Teach the user a new skill or concept over multiple sessions, using the current directory as a stateful teaching workspace.
@@ -10,3 +10,9 @@ index 6fd3754..906295c 100644
  - **[wait-what](./wait-what/SKILL.md)**: Fire this the moment a message doesn't land. The agent re-pitches it with the context you're missing, in plain English, using your `GLOSSARY.md` vocabulary.
  
  ## Model-invoked
+ 
+ Model- or user-reachable (rich trigger phrasing so the model can reach for them).
+ 
++- **[find-skills](./find-skills/SKILL.md)**: Search the open skills ecosystem for an installable skill when nothing here covers the capability, then vet it by install count and source before recommending or installing.
+ - **[grilling](./grilling/SKILL.md)**: Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved.
+ - **[writing-for-agents](./writing-for-agents/SKILL.md)**: Writing documents for agents: skills, AGENTS.md/CLAUDE.md, and any doc an agent reaches by a pointer.

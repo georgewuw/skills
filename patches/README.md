@@ -6,16 +6,17 @@
 
 ## 基线
 
-本仓库取自两个上游，各自对应 `patches/` 下一个同级目录。
+本仓库取自三个上游，各自对应 `patches/` 下一个同级目录。
 
 | 目录 | 上游仓库 | 标签 | commit | 打标签时间 | 许可 |
 | --- | --- | --- | --- | --- | --- |
 | `mattpocock-skills-v1.3.2/` | https://github.com/mattpocock/skills | `v1.3.2` | `d1478fcb140db0b93c0c8df17bcfd311844749d0` | 2026-10-29 | MIT |
 | `leonxlnx-taste-skill-v2.1.0/` | https://github.com/Leonxlnx/taste-skill | `v2.1.0` | `a206bbf75a9d80554c0de17c1198ee2fbbc555aa` | 2026-10-18 | MIT |
+| `vercel-labs-skills-57217cf/` | https://github.com/vercel-labs/skills | 未打标签 | `57217cf86ba38148a57af9e90d14a4c049558330` | 不适用 | MIT |
 
-目录名由「上游 owner-repo-标签」构成，与基线一一对应。若将来同步到新的上游版本，新增同级目录（例如 `mattpocock-skills-v1.4.0/`），不要覆盖旧目录，旧目录即为该版本的改动记录。
+目录名由「上游 owner-repo-标签」构成，与基线一一对应。若将来同步到新的上游版本，新增同级目录（例如 `mattpocock-skills-v1.4.0/`），不要覆盖旧目录，旧目录即为该版本的改动记录。上游未发布标签时，目录名的标签位改用 7 位短 commit（`vercel-labs-skills-57217cf/`），基线仍然是一个固定 commit，不跟随分支移动。
 
-第一个来源贡献 22 个技能与仓库脚手架，改动较多。第二个来源只贡献 `redesign-existing-projects` 一个技能，它与上游的差异只有 `SKILL.md` frontmatter 里新增的一行 `disable-model-invocation: true`，其余逐字节一致；该技能下的 `agents/openai.yaml` 上游没有对应文件，属于新增文件而非改动，因此不出补丁。逐条核对结果见 `NOTICE.md`。
+第一个来源贡献 22 个技能与仓库脚手架，改动较多。第二个来源只贡献 `redesign-existing-projects` 一个技能，它与上游的差异只有 `SKILL.md` frontmatter 里新增的一行 `disable-model-invocation: true`，其余逐字节一致；该技能下的 `agents/openai.yaml` 上游没有对应文件，属于新增文件而非改动，因此不出补丁。第三个来源只贡献 `find-skills` 一个技能，差异同样只有标点：仓库约定正文不得使用破折号，上游 5 处破折号改为冒号，其余逐字节一致；`agents/openai.yaml` 也是新增文件，不出补丁。逐条核对结果见 `NOTICE.md`。
 
 ## 命名与目录规则
 
@@ -30,8 +31,8 @@
 | `CLAUDE.md.patch` | `CLAUDE.md` | 删去 `misc/`、`in-progress/`、`deprecated/` 三个 bucket 的约定、安装命令与文档页约定、triage labels 段落；路由技能名改为 `ask-help`；`link-skills.sh` 说明去掉对 deprecated/misc 的排除描述；新增一段双语说明：`README.md` 为英文版、`README.zh-CN.md` 为简体中文版，两者须保持同形，改动一处须同步另一处 | +5 / -16 |
 | `.agents/invocation.md.patch` | `.agents/invocation.md` | 用户自调用技能示例由 `setup-matt-pocock-skills` 改为 `project-preset-for-skills` | +1 / -1 |
 | `skills/engineering/README.md.patch` | `skills/engineering/README.md` | 删除 `triage`、`wayfinder`、`pr`、`wizard`、`setup-matt-pocock-skills` 条目；`to-tickets` 条目改写为本地 markdown 形态；`ask-matt` 改为 `ask-help`；`to-spec` 描述去掉「发布到 issue tracker」；补入上游没有的 `project-preset-for-skills` 与 `redesign-existing-projects` 两条，后者排在 User-invoked 一节末尾 | +5 / -8 |
-| `skills/productivity/README.md.patch` | `skills/productivity/README.md` | 删除 `to-questionnaire` 条目 | +0 / -1 |
-| `skills/engineering/ask-matt/SKILL.md.patch` | `skills/engineering/ask-help/SKILL.md` | `name` 与 H1 改为 `ask-help`；路由表移除 `/triage`、`/wayfinder`、`/wizard`、`/to-questionnaire`、`/pr` 分支，`/to-tickets` 保留但改按本地 `.scratch/<feature>/issues/` 描述；`/wayfinder` 的 on-ramp 改为「无对应技能，拆成多份 spec」；补入 `redesign-existing-projects`；前置条件改为 `project-preset-for-skills` 且只保留 doc layout | +9 / -18 |
+| `skills/productivity/README.md.patch` | `skills/productivity/README.md` | 删除 `to-questionnaire` 条目；补入上游没有的 `find-skills` 条目 | +1 / -1 |
+| `skills/engineering/ask-matt/SKILL.md.patch` | `skills/engineering/ask-help/SKILL.md` | `name` 与 H1 改为 `ask-help`；路由表移除 `/triage`、`/wayfinder`、`/wizard`、`/to-questionnaire`、`/pr` 分支，`/to-tickets` 保留但改按本地 `.scratch/<feature>/issues/` 描述；`/wayfinder` 的 on-ramp 改为「无对应技能，拆成多份 spec」；补入 `redesign-existing-projects` 与 `find-skills`；前置条件改为 `project-preset-for-skills` 且只保留 doc layout | +10 / -18 |
 | `skills/engineering/ask-matt/agents/openai.yaml.patch` | `skills/engineering/ask-help/agents/openai.yaml` | `display_name` 改为 `Ask Help` | +1 / -1 |
 | `skills/engineering/setup-matt-pocock-skills/SKILL.md.patch` | `skills/engineering/project-preset-for-skills/SKILL.md` | `name` 与 H1 改为 `project-preset-for-skills`；`description` 去掉 issue tracker 与 triage label vocabulary；删掉 Section A（issue tracker）与 Section B（triage labels）整节，以及探索阶段的 `git remote`、`.scratch/`、`triage` 安装检查；`## Agent skills` 草稿块只保留 Domain docs 子块；第 5 步收尾改为「调整领域文档布局」 | +8 / -54 |
 | `skills/engineering/setup-matt-pocock-skills/agents/openai.yaml.patch` | `skills/engineering/project-preset-for-skills/agents/openai.yaml` | `display_name` 改为 `Project Preset for Skills` | +1 / -1 |
@@ -43,8 +44,9 @@
 | `skills/engineering/to-spec/SKILL.md.patch` | `skills/engineering/to-spec/SKILL.md` | `description` 去掉「publish to the project issue tracker」；删除 tracker 与 triage label 前置提示；第 3 步不再发布 spec、不再打 `ready-for-agent` 标签；整份模板（连 `<spec-template>` 标签）用带 `markdown` 标注的围栏代码块包住，标签在块内以字面文本出现，`<user-story-example>` 与 `<actor>` 等占位符保持裸写 | +4 / -4 |
 | `skills/engineering/to-tickets/SKILL.md.patch` | `skills/engineering/to-tickets/SKILL.md` | `description` 改为写到 `.scratch/<feature>/`；删除 `/setup-matt-pocock-skills` 前置提示；第 5 步只保留本地 markdown 发布路径，删去真实 tracker 分支（native blocking links、`ready-for-agent`、子 issue）与 `<issue-template>`；末尾「不要关闭父 issue」改为「不要改写 spec」；整份模板（连 `<local-ticket-template>` 标签）用带 `markdown` 标注的围栏代码块包住，占位符保持裸写 | +9 / -33 |
 | `leonxlnx-taste-skill-v2.1.0/skills/redesign-skill/SKILL.md.patch` | `skills/engineering/redesign-existing-projects/SKILL.md` | frontmatter 新增 `disable-model-invocation: true`，把该技能改为用户自调用；正文与上游逐字节一致 | +1 / -0 |
+| `vercel-labs-skills-57217cf/skills/find-skills/SKILL.md.patch` | `skills/productivity/find-skills/SKILL.md` | 5 处破折号改为冒号：第 48、49 行是列表项与说明之间的分隔，第 69 至 71 行是加粗标签后的说明；同时把这三处冒号后的首字母改为小写。正文其余逐字节一致 | +5 / -5 |
 
-合计 16 个补丁，覆盖 12 个 markdown 文件与 4 个 `agents/openai.yaml`：15 个在 `mattpocock-skills-v1.3.2/` 下，1 个在 `leonxlnx-taste-skill-v2.1.0/` 下。markdown 之外的配置差异不在此列，原因见下一节。
+合计 17 个补丁，覆盖 13 个 markdown 文件与 4 个 `agents/openai.yaml`：15 个在 `mattpocock-skills-v1.3.2/` 下，1 个在 `leonxlnx-taste-skill-v2.1.0/` 下，1 个在 `vercel-labs-skills-57217cf/` 下。markdown 之外的配置差异不在此列，原因见下一节。
 
 ## 路径映射（改名）
 
@@ -82,6 +84,21 @@ git -c core.autocrlf=false clone --branch v2.1.0 --depth 1 \
 cd /tmp/taste-upstream
 
 for p in $(find /path/to/patches/leonxlnx-taste-skill-v2.1.0 -name '*.patch' | sort); do
+  git -c core.autocrlf=false apply "$p"
+done
+```
+
+第三个来源没有标签，按 commit 精确取那一份树，不检出任何分支：
+
+```bash
+git -c core.autocrlf=false init /tmp/vercel-upstream
+
+cd /tmp/vercel-upstream
+git remote add origin https://github.com/vercel-labs/skills
+git -c core.autocrlf=false fetch --depth 1 origin 57217cf86ba38148a57af9e90d14a4c049558330
+git -c core.autocrlf=false checkout FETCH_HEAD
+
+for p in $(find /path/to/patches/vercel-labs-skills-57217cf -name '*.patch' | sort); do
   git -c core.autocrlf=false apply "$p"
 done
 ```

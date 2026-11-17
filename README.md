@@ -4,7 +4,7 @@
 
 A personal collection of agent skills for day-to-day work on this machine. Nothing here is published, and the repo does not aim for parity with upstream.
 
-Sources: most skills derive from [mattpocock/skills](https://github.com/mattpocock/skills) `v1.3.2`, and `redesign-existing-projects` derives from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `v2.1.0`. Per-skill sources, upstream paths and commits are in [NOTICE.md](./NOTICE.md); the actual deltas against upstream are in [patches/](./patches/README.md).
+Sources: most skills derive from [mattpocock/skills](https://github.com/mattpocock/skills) `v1.3.2`, `redesign-existing-projects` derives from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `v2.1.0`, and `find-skills` derives from [vercel-labs/skills](https://github.com/vercel-labs/skills) at commit `57217cf` (that repository publishes no tags). Per-skill sources, upstream paths and commits are in [NOTICE.md](./NOTICE.md); the actual deltas against upstream are in [patches/](./patches/README.md).
 
 The localisation follows one principle: upstream treats an issue tracker (GitHub or GitLab Issues plus a triage label scheme) as prerequisite infrastructure, and this repo removes that dependency, keeping only the path built on local markdown and domain docs. Skills that need a tracker or operations outside the repo are therefore excluded: `triage`, `wayfinder`, `wizard`, `pr` and `to-questionnaire`. `to-tickets` sat in that group originally, but it has been rewritten against local markdown tickets (`.scratch/<feature>/issues/`) and reintroduced.
 
@@ -12,11 +12,11 @@ The localisation follows one principle: upstream treats an issue tracker (GitHub
 
 | Item | Count | Notes |
 | --- | --- | --- |
-| Skills | 23 | 17 in `engineering`, 6 in `productivity` |
+| Skills | 24 | 17 in `engineering`, 7 in `productivity` |
 | User-invoked | 14 | Triggered only by a human typing `/skill-name` |
-| Model-invoked | 9 | The model may trigger them at its own discretion |
-| Listed in the plugin manifest | 23 | One entry per skill directory on disk |
-| Files changed from upstream with a patch | 16 | 12 markdown files and 4 `agents/openai.yaml`, see `patches/` |
+| Model-invoked | 10 | The model may trigger them at its own discretion |
+| Listed in the plugin manifest | 24 | One entry per skill directory on disk |
+| Files changed from upstream with a patch | 17 | 13 markdown files and 4 `agents/openai.yaml`, see `patches/` |
 
 ## Repository layout
 
@@ -39,7 +39,8 @@ The localisation follows one principle: upstream treats an issue tracker (GitHub
 ├── patches/
 │   ├── README.md                Patch baseline, inventory, how to apply and regenerate
 │   ├── leonxlnx-taste-skill-v2.1.0/   1 patch, paths mirroring upstream paths
-│   └── mattpocock-skills-v1.3.2/      15 patches, paths mirroring upstream paths
+│   ├── mattpocock-skills-v1.3.2/      15 patches, paths mirroring upstream paths
+│   └── vercel-labs-skills-57217cf/    1 patch, paths mirroring upstream paths
 ├── scripts/
 │   ├── link-skills.sh           Symlinks skills into ~/.claude/skills and ~/.agents/skills
 │   ├── list-skills.sh           Lists every SKILL.md in the repo
@@ -66,6 +67,7 @@ The localisation follows one principle: upstream treats an issue tracker (GitHub
     │   └── to-tickets/          SKILL.md, agents/openai.yaml
     └── productivity/            Everyday non-coding workflows
         ├── README.md
+        ├── find-skills/
         ├── grill-me/
         ├── grilling/
         ├── handoff/
@@ -83,6 +85,7 @@ Source column abbreviations:
 
 - `v1.3.2`: [mattpocock/skills](https://github.com/mattpocock/skills) tag `v1.3.2`, commit `d1478fcb140db0b93c0c8df17bcfd311844749d0`.
 - `taste-skill v2.1.0`: [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) tag `v2.1.0`, commit `a206bbf75a9d80554c0de17c1198ee2fbbc555aa`.
+- `57217cf`: [vercel-labs/skills](https://github.com/vercel-labs/skills) commit `57217cf86ba38148a57af9e90d14a4c049558330`. No tags upstream, so the baseline is that commit and never a branch head.
 - `as-is`: byte-identical to the upstream file. `patched`: content trimmed, change recorded in `patches/`.
 
 ### Engineering (17)
@@ -114,7 +117,7 @@ Model-invoked:
 | [codebase-design](./skills/engineering/codebase-design/SKILL.md) | Shared vocabulary for deep module design: small interfaces, clean seams, testable through the interface | v1.3.2 / `engineering/codebase-design` (as-is) |
 | [code-review](./skills/engineering/code-review/SKILL.md) | Two-axis review: Standards (repo conventions, common smells) and Spec (fidelity to the original spec), run as parallel sub-agents | v1.3.2 / `engineering/code-review` (patched) |
 
-### Productivity (6)
+### Productivity (7)
 
 User-invoked:
 
@@ -129,6 +132,7 @@ Model-invoked:
 
 | Skill | Purpose | Source |
 | --- | --- | --- |
+| [find-skills](./skills/productivity/find-skills/SKILL.md) | Searches the public skills ecosystem for an installable skill, vets it by install count and source reputation, then offers the install command | `57217cf` / `skills/find-skills` (patched) |
 | [grilling](./skills/productivity/grilling/SKILL.md) | The questioning primitive itself: advances the design tree round by round, facts to the agent, decisions to you | v1.3.2 / `productivity/grilling` (as-is) |
 | [writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md) | Docs whose reader is not a human: skills, `AGENTS.md` / `CLAUDE.md`, anything reached through a pointer | v1.3.2 / `productivity/writing-for-agents` (as-is) |
 
@@ -173,7 +177,7 @@ grill-with-docs ──► to-spec ──► to-tickets ──► implement (or i
    GLOSSARY.md / ADR                           retro (environment improvements after the session)
 ```
 
-Side paths and supplements: `prototype` turns design questions that paper cannot settle into a throwaway program; `research` hands verification to a background agent; `diagnosing-bugs` handles problems that resist reproduction; `grill-me` and `grilling` are questioning entry points that need no files on disk; `redesign-existing-projects` stands alone for visual overhauls of existing projects.
+Side paths and supplements: `prototype` turns design questions that paper cannot settle into a throwaway program; `research` hands verification to a background agent; `diagnosing-bugs` handles problems that resist reproduction; `grill-me` and `grilling` are questioning entry points that need no files on disk; `redesign-existing-projects` stands alone for visual overhauls of existing projects; `find-skills` looks outside this repo, searching the public skills ecosystem when nothing here covers the capability.
 
 When unsure which skill to use, run `ask-help` first. It is the routing table for this flow.
 
@@ -234,4 +238,4 @@ Read [patches/README.md](./patches/README.md) before syncing with upstream. The 
 
 ## License
 
-Released under the MIT licence, see [LICENSE](./LICENSE). Both upstream repositories are MIT as well; sources, paths and commits are in [NOTICE.md](./NOTICE.md).
+Released under the MIT licence, see [LICENSE](./LICENSE). All three upstream repositories are MIT as well; sources, paths and commits are in [NOTICE.md](./NOTICE.md).

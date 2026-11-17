@@ -4,7 +4,7 @@
 
 个人自用的 agent 技能集合，服务于本机日常工作流。仓库不对外发布，也不以与上游保持完整对齐为目标。
 
-来源：多数技能派生自 [mattpocock/skills](https://github.com/mattpocock/skills) `v1.3.2`，`redesign-existing-projects` 派生自 [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `v2.1.0`。逐项来源、上游路径与 commit 见 [NOTICE.md](./NOTICE.md)，相对上游的实际改动见 [patches/](./patches/README.md)。
+来源：多数技能派生自 [mattpocock/skills](https://github.com/mattpocock/skills) `v1.3.2`，`redesign-existing-projects` 派生自 [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `v2.1.0`，`find-skills` 派生自 [vercel-labs/skills](https://github.com/vercel-labs/skills) 的 commit `57217cf`（该仓库未发布标签）。逐项来源、上游路径与 commit 见 [NOTICE.md](./NOTICE.md)，相对上游的实际改动见 [patches/](./patches/README.md)。
 
 本地化遵循一条原则：上游把 issue tracker（GitHub 或 GitLab Issues 加 triage 标签体系）当作前置设施，本仓库移除该依赖，只保留基于本地 markdown 与领域文档的路径。依赖 tracker 或仓库外操作的技能因此未纳入，包括 `triage`、`wayfinder`、`wizard`、`pr` 与 `to-questionnaire`。`to-tickets` 原属此类，已改写为基于本地 markdown ticket（`.scratch/<feature>/issues/`）后重新引入。
 
@@ -12,11 +12,11 @@
 
 | 项目 | 数量 | 说明 |
 | --- | --- | --- |
-| 技能总数 | 23 | `engineering` 17 个，`productivity` 6 个 |
-| 用户自调用 | 14 | 仅可由人输入 `/技能名` 触发 |
-| 模型可调用 | 9 | 模型可自行判断触发 |
-| 插件清单收录 | 23 | 与磁盘上的技能目录一一对应 |
-| 相对上游有改动的文件 | 16 | 12 个 markdown 与 4 个 `agents/openai.yaml`，见 `patches/` |
+| 技能总数 | 24 | `engineering` 17 个，`productivity` 7 个 |
+| 用户自调用 | 14 | 仅可由用户输入 `/技能名` 触发 |
+| 模型可调用 | 10 | 模型可自行判断触发 |
+| 插件清单收录 | 24 | 与磁盘上的技能目录一一对应 |
+| 相对上游有改动的文件 | 17 | 13 个 markdown 与 4 个 `agents/openai.yaml`，见 `patches/` |
 
 ## 目录结构
 
@@ -39,7 +39,8 @@
 ├── patches/
 │   ├── README.md                补丁基线、清单、应用与重新生成方法
 │   ├── leonxlnx-taste-skill-v2.1.0/   1 个补丁，路径镜像上游路径
-│   └── mattpocock-skills-v1.3.2/      15 个补丁，路径镜像上游路径
+│   ├── mattpocock-skills-v1.3.2/      15 个补丁，路径镜像上游路径
+│   └── vercel-labs-skills-57217cf/    1 个补丁，路径镜像上游路径
 ├── scripts/
 │   ├── link-skills.sh           把技能软链至 ~/.claude/skills 与 ~/.agents/skills
 │   ├── list-skills.sh           列出仓库内全部 SKILL.md
@@ -66,6 +67,7 @@
     │   └── to-tickets/          SKILL.md, agents/openai.yaml
     └── productivity/            日常非编码工作流
         ├── README.md
+        ├── find-skills/
         ├── grill-me/
         ├── grilling/
         ├── handoff/
@@ -83,6 +85,7 @@
 
 - `v1.3.2`：[mattpocock/skills](https://github.com/mattpocock/skills) 标签 `v1.3.2`，commit `d1478fcb140db0b93c0c8df17bcfd311844749d0`。
 - `taste-skill v2.1.0`：[Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) 标签 `v2.1.0`，commit `a206bbf75a9d80554c0de17c1198ee2fbbc555aa`。
+- `57217cf`：[vercel-labs/skills](https://github.com/vercel-labs/skills) commit `57217cf86ba38148a57af9e90d14a4c049558330`。上游无标签，基线即该 commit，不取任何分支的最新状态。
 - `原样`：与上游文件逐字节一致。`有补丁`：内容经过裁剪，改动记录在 `patches/`。
 
 ### Engineering（17）
@@ -114,7 +117,7 @@
 | [codebase-design](./skills/engineering/codebase-design/SKILL.md) | 深模块设计的共享词汇：小接口、干净的接缝、可透过接口测试 | v1.3.2 / `engineering/codebase-design`（原样） |
 | [code-review](./skills/engineering/code-review/SKILL.md) | 双轴评审：Standards（是否符合仓库规范、规避常见坏味道）与 Spec（是否忠实实现原 spec），由并行子 agent 执行 | v1.3.2 / `engineering/code-review`（有补丁） |
 
-### Productivity（6）
+### Productivity（7）
 
 用户自调用：
 
@@ -129,8 +132,9 @@
 
 | 技能 | 用途 | 来源 |
 | --- | --- | --- |
+| [find-skills](./skills/productivity/find-skills/SKILL.md) | 在公开技能生态中检索可用技能，按安装量与来源声誉筛选后给出安装命令 | `57217cf` / `skills/find-skills`（有补丁） |
 | [grilling](./skills/productivity/grilling/SKILL.md) | 追问原语：逐轮推进设计树，事实归 agent，决策归你 | v1.3.2 / `productivity/grilling`（原样） |
-| [writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md) | 面向非人类读者的文档：技能、`AGENTS.md` / `CLAUDE.md`，以及任何被指针引用的文档 | v1.3.2 / `productivity/writing-for-agents`（原样） |
+| [writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md) | 面向Agents的文档：技能、`AGENTS.md` / `CLAUDE.md`，以及任何被指针引用的文档 | v1.3.2 / `productivity/writing-for-agents`（原样） |
 
 ## 使用
 
@@ -138,10 +142,10 @@
 
 两类技能的分界定义在 [.agents/invocation.md](./.agents/invocation.md)：
 
-- **用户自调用（user-invoked）**：`SKILL.md` frontmatter 含 `disable-model-invocation: true`，`agents/openai.yaml` 含 `policy.allow_implicit_invocation: false`。仅可由人输入 `/技能名` 触发，其他技能也无法通过 Skill 工具调用。`description` 面向人撰写，一句话说明用途。
+- **用户自调用（user-invoked）**：`SKILL.md` frontmatter 含 `disable-model-invocation: true`，`agents/openai.yaml` 含 `policy.allow_implicit_invocation: false`。仅可由用户输入 `/技能名` 触发，其他技能也无法通过 Skill 工具调用。`description` 面向用户撰写，一句话说明用途。
 - **模型可调用（model-invoked）**：不含上述两个字段，模型可自行判断触发。`description` 面向模型撰写，保留“何时该用”的触发语。
 
-一条硬约束：用户自调用技能可以调用模型可调用技能，反向不成立。因此 `implement`、`implement-spec` 调用 `tdd`、`code-review` 合法；任何技能若需 `project-preset-for-skills`，只能转述为让人执行的提示。
+一条硬约束：用户自调用技能可以调用模型可调用技能，反向不成立。因此 `implement`、`implement-spec` 调用 `tdd`、`code-review` 合法；任何技能若需 `project-preset-for-skills`，只能转述为让用户执行的提示。
 
 ### 安装到本机
 
@@ -173,7 +177,7 @@ grill-with-docs ──► to-spec ──► to-tickets ──► implement（并
    GLOSSARY.md / ADR                           retro（会话结束后复盘环境改进）
 ```
 
-旁路与补充：`prototype` 把难以纸面定论的设计问题做成一次性程序；`research` 把查证交给后台 agent；`diagnosing-bugs` 处理难复现的问题；`grill-me` 与 `grilling` 是无落盘需求的追问入口；`redesign-existing-projects` 独立用于既有项目的视觉重做。
+旁路与补充：`prototype` 把难以纸面定论的设计问题做成一次性程序；`research` 把查证交给后台 agent；`diagnosing-bugs` 处理难复现的问题；`grill-me` 与 `grilling` 是无落盘需求的追问入口；`redesign-existing-projects` 独立用于既有项目的视觉重做；`find-skills` 向外看，本仓库没有对应能力时检索公开技能生态。
 
 不确定该用哪个技能时，先运行 `ask-help`，它是上述流程的路由表。
 
@@ -234,4 +238,4 @@ diff \
 
 ## 许可
 
-本仓库以 MIT 许可发布，见 [LICENSE](./LICENSE)。上游两个仓库同为 MIT，来源、路径与 commit 见 [NOTICE.md](./NOTICE.md)。
+本仓库以 MIT 许可发布，见 [LICENSE](./LICENSE)。上游三个仓库同为 MIT，来源、路径与 commit 见 [NOTICE.md](./NOTICE.md)。
