@@ -2,21 +2,21 @@
 
 # Skills
 
-A personal collection of agent skills. Every skill here serves my own day-to-day workflow on this machine. Nothing is published, and the repo no longer chases completeness against upstream.
+A personal collection of agent skills for day-to-day work on this machine. Nothing here is published, and the repo does not aim for parity with upstream.
 
-Sources and licensing: most skills are derived from [mattpocock/skills](https://github.com/mattpocock/skills) at `v1.3.2`, and `redesign-existing-projects` comes from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) at `v2.1.0`. Per-skill sources, upstream paths and commits are in [NOTICE.md](./NOTICE.md); the actual deltas against upstream are in [patches/](./patches/README.md).
+Sources: most skills derive from [mattpocock/skills](https://github.com/mattpocock/skills) `v1.3.2`, and `redesign-existing-projects` derives from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `v2.1.0`. Per-skill sources, upstream paths and commits are in [NOTICE.md](./NOTICE.md); the actual deltas against upstream are in [patches/](./patches/README.md).
 
-One thread runs through the whole localisation: upstream treats an issue tracker (GitHub or GitLab Issues plus a triage label scheme) as prerequisite infrastructure, and this repo removes that dependency outright, keeping only the "local markdown plus domain docs" path. That is why skills such as `triage`, `wayfinder`, `wizard`, `pr` and `to-questionnaire`, all of which depend on a tracker or on operations outside the repo, are not included. `to-tickets` sat in that group too until 2026-11-17, when it came back rewritten against local markdown tickets (`.scratch/<feature>/issues/`) rather than a tracker.
+The localisation follows one principle: upstream treats an issue tracker (GitHub or GitLab Issues plus a triage label scheme) as prerequisite infrastructure, and this repo removes that dependency, keeping only the path built on local markdown and domain docs. Skills that need a tracker or operations outside the repo are therefore excluded: `triage`, `wayfinder`, `wizard`, `pr` and `to-questionnaire`. `to-tickets` sat in that group originally, but it has been rewritten against local markdown tickets (`.scratch/<feature>/issues/`) and reintroduced.
 
 ## Overview
 
 | Item | Count | Notes |
 | --- | --- | --- |
 | Skills | 23 | 17 in `engineering`, 6 in `productivity` |
-| User-invoked | 14 | Triggered only when a human types `/skill-name` |
-| Model-invoked | 9 | The model may trigger them on its own judgement |
+| User-invoked | 14 | Triggered only by a human typing `/skill-name` |
+| Model-invoked | 9 | The model may trigger them at its own discretion |
 | Listed in the plugin manifest | 23 | One entry per skill directory on disk |
-| Files changed from upstream with a patch | 16 | 12 markdown files plus 4 `agents/openai.yaml`, see `patches/` |
+| Files changed from upstream with a patch | 16 | 12 markdown files and 4 `agents/openai.yaml`, see `patches/` |
 
 ## Repository layout
 
@@ -30,7 +30,7 @@ One thread runs through the whole localisation: upstream treats an issue tracker
 ├── LICENSE                      MIT
 ├── package.json                 Entry point for changesets and the version sync script
 ├── .agents/
-│   └── invocation.md            Definitions of user-invoked and model-invoked, plus cross-skill call rules
+│   └── invocation.md            Invocation types and cross-skill call rules
 ├── .changeset/
 │   └── config.json              Release configuration
 ├── .claude-plugin/
@@ -75,15 +75,15 @@ One thread runs through the whole localisation: upstream treats an issue tracker
         └── writing-for-agents/  SKILL.md, SKILL-MECHANICS.md, agents/openai.yaml
 ```
 
-Every skill directory ships an `agents/openai.yaml` (Codex UI metadata; user-invoked skills also carry `policy.allow_implicit_invocation: false`). Multi-file skills are spelled out above, single-file ones are not listed file by file.
+Every skill directory carries `agents/openai.yaml` (Codex UI metadata; user-invoked skills also carry `policy.allow_implicit_invocation: false`). The tree expands multi-file skills only; single-file skills are not listed file by file.
 
 ## Skills
 
-Meaning of the abbreviations in the Source column:
+Source column abbreviations:
 
-- `v1.3.2` means [mattpocock/skills](https://github.com/mattpocock/skills) tag `v1.3.2`, commit `d1478fcb140db0b93c0c8df17bcfd311844749d0`.
-- `taste-skill v2.1.0` means [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) tag `v2.1.0`, commit `a206bbf75a9d80554c0de17c1198ee2fbbc555aa`.
-- "as-is" means byte-identical to the upstream file; "patched" means this repo trimmed the content and the change is recorded in `patches/`.
+- `v1.3.2`: [mattpocock/skills](https://github.com/mattpocock/skills) tag `v1.3.2`, commit `d1478fcb140db0b93c0c8df17bcfd311844749d0`.
+- `taste-skill v2.1.0`: [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) tag `v2.1.0`, commit `a206bbf75a9d80554c0de17c1198ee2fbbc555aa`.
+- `as-is`: byte-identical to the upstream file. `patched`: content trimmed, change recorded in `patches/`.
 
 ### Engineering (17)
 
@@ -91,13 +91,13 @@ User-invoked:
 
 | Skill | Purpose | Source |
 | --- | --- | --- |
-| [ask-help](./skills/engineering/ask-help/SKILL.md) | Routing entry: recommends which skill to use and which flow to follow for your situation | v1.3.2 / `engineering/ask-matt` (renamed, patched) |
+| [ask-help](./skills/engineering/ask-help/SKILL.md) | Routing entry: recommends the skill and flow for your situation | v1.3.2 / `engineering/ask-matt` (renamed, patched) |
 | [grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md) | Continuous questioning around a design, settling terms into `GLOSSARY.md` and ADRs as it goes | v1.3.2 / `engineering/grill-with-docs` (as-is) |
-| [improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md) | Scans a codebase for module-deepening opportunities, produces an HTML report, then grills whichever one you pick | v1.3.2 / `engineering/improve-codebase-architecture` (as-is) |
-| [to-spec](./skills/engineering/to-spec/SKILL.md) | Synthesises the current conversation into a spec directly, no interview, nothing published to a tracker | v1.3.2 / `engineering/to-spec` (patched) |
-| [to-tickets](./skills/engineering/to-tickets/SKILL.md) | Splits a plan, spec or conversation into tracer-bullet tickets, each declaring its blocking edges, one markdown file per ticket under `.scratch/<feature>/` | v1.3.2 / `engineering/to-tickets` (patched) |
-| [implement](./skills/engineering/implement/SKILL.md) | Implements against a spec or a ticket, calling `tdd` at agreed seams and `code-review` before committing | v1.3.2 / `engineering/implement` (patched) |
-| [implement-spec](./skills/engineering/implement-spec/SKILL.md) | Implements a whole spec on a single integration branch, treating tickets as a task graph to push through concurrently | v1.3.2 / `engineering/implement-spec` (patched) |
+| [improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md) | Scans a codebase for module-deepening opportunities, produces an HTML report, then grills the chosen one | v1.3.2 / `engineering/improve-codebase-architecture` (as-is) |
+| [to-spec](./skills/engineering/to-spec/SKILL.md) | Synthesises the current conversation into a spec; no interview, nothing published to a tracker | v1.3.2 / `engineering/to-spec` (patched) |
+| [to-tickets](./skills/engineering/to-tickets/SKILL.md) | Splits a plan, spec or conversation into tracer-bullet tickets that declare their blocking edges, one markdown file per ticket under `.scratch/<feature>/` | v1.3.2 / `engineering/to-tickets` (patched) |
+| [implement](./skills/engineering/implement/SKILL.md) | Implements against a spec or a single ticket, calling `tdd` at agreed seams and `code-review` before committing | v1.3.2 / `engineering/implement` (patched) |
+| [implement-spec](./skills/engineering/implement-spec/SKILL.md) | Implements a whole spec on a single integration branch, driving tickets as a task graph | v1.3.2 / `engineering/implement-spec` (patched) |
 | [retro](./skills/engineering/retro/SKILL.md) | Session retrospective: ranks improvements to the coding agent environment (navigation, automated checks, standards, steering files, toolchain) by severity | v1.3.2 / `engineering/retro` (as-is) |
 | [project-preset-for-skills](./skills/engineering/project-preset-for-skills/SKILL.md) | One-time setup before first use: writes the domain doc layout under `docs/agents/` | v1.3.2 / `engineering/setup-matt-pocock-skills` (renamed, patched) |
 | [redesign-existing-projects](./skills/engineering/redesign-existing-projects/SKILL.md) | Lifts an existing site or app to a premium feel: audits the current state, spots generic AI styling, applies high-end visual standards without breaking behaviour | taste-skill v2.1.0 / `skills/redesign-skill` (patched) |
@@ -107,12 +107,12 @@ Model-invoked:
 | Skill | Purpose | Source |
 | --- | --- | --- |
 | [prototype](./skills/engineering/prototype/SKILL.md) | Throwaway prototype: a single HTML file to test a state model and its logic, or switchable UI variants to test an interface | v1.3.2 / `engineering/prototype` (as-is) |
-| [diagnosing-bugs](./skills/engineering/diagnosing-bugs/SKILL.md) | Diagnosis loop for hard bugs and performance regressions: build a feedback loop that can go red, then minimise, hypothesise, instrument, fix, add a regression test | v1.3.2 / `engineering/diagnosing-bugs` (as-is) |
+| [diagnosing-bugs](./skills/engineering/diagnosing-bugs/SKILL.md) | Diagnosis loop for hard bugs and performance regressions: build a feedback loop that can fail, then minimise, hypothesise, instrument, fix and add a regression test | v1.3.2 / `engineering/diagnosing-bugs` (as-is) |
 | [research](./skills/engineering/research/SKILL.md) | A background agent reads primary sources and settles findings into a cited Markdown file | v1.3.2 / `engineering/research` (as-is) |
 | [tdd](./skills/engineering/tdd/SKILL.md) | Red, green, refactor loop, delivered one vertical slice at a time | v1.3.2 / `engineering/tdd` (as-is) |
 | [domain-modeling](./skills/engineering/domain-modeling/SKILL.md) | Actively builds and sharpens a domain model: challenges terms, stress-tests with scenarios, keeps `GLOSSARY.md` and ADRs in step | v1.3.2 / `engineering/domain-modeling` (as-is) |
 | [codebase-design](./skills/engineering/codebase-design/SKILL.md) | Shared vocabulary for deep module design: small interfaces, clean seams, testable through the interface | v1.3.2 / `engineering/codebase-design` (as-is) |
-| [code-review](./skills/engineering/code-review/SKILL.md) | Two-axis review: Standards (does it follow repo conventions and avoid common smells) and Spec (does it faithfully implement the original spec), run as parallel sub-agents | v1.3.2 / `engineering/code-review` (patched) |
+| [code-review](./skills/engineering/code-review/SKILL.md) | Two-axis review: Standards (repo conventions, common smells) and Spec (fidelity to the original spec), run as parallel sub-agents | v1.3.2 / `engineering/code-review` (patched) |
 
 ### Productivity (6)
 
@@ -120,9 +120,9 @@ User-invoked:
 
 | Skill | Purpose | Source |
 | --- | --- | --- |
-| [grill-me](./skills/productivity/grill-me/SKILL.md) | Stateless version of continuous questioning, for cases with no working directory to write into | v1.3.2 / `productivity/grill-me` (as-is) |
+| [grill-me](./skills/productivity/grill-me/SKILL.md) | Stateless continuous questioning, for cases with no working directory to write into | v1.3.2 / `productivity/grill-me` (as-is) |
 | [handoff](./skills/productivity/handoff/SKILL.md) | Compresses the current conversation into a handoff document for another agent to pick up | v1.3.2 / `productivity/handoff` (as-is) |
-| [teach](./skills/productivity/teach/SKILL.md) | Treats the current directory as a stateful teaching space, spreading one concept or skill across several sessions | v1.3.2 / `productivity/teach` (as-is) |
+| [teach](./skills/productivity/teach/SKILL.md) | Treats the current directory as a stateful teaching space, spreading one concept or skill across sessions | v1.3.2 / `productivity/teach` (as-is) |
 | [wait-what](./skills/productivity/wait-what/SKILL.md) | Correction prompt for a message you did not follow: makes the agent re-explain in terms you already have and supply the missing context | v1.3.2 / `productivity/wait-what` (as-is) |
 
 Model-invoked:
@@ -139,15 +139,15 @@ Model-invoked:
 The boundary between the two kinds is defined in [.agents/invocation.md](./.agents/invocation.md):
 
 - **User-invoked**: the `SKILL.md` frontmatter carries `disable-model-invocation: true`, and `agents/openai.yaml` carries `policy.allow_implicit_invocation: false`. Only a human typing `/skill-name` can trigger them, and other skills cannot reach them through the Skill tool either. The `description` is written for humans: one sentence on what it does.
-- **Model-invoked**: neither field is present, so the model can trigger them on its own judgement. The `description` is written for the model and keeps the "use this when" triggers.
+- **Model-invoked**: neither field is present, so the model triggers them at its own judgement. The `description` is written for the model and keeps the "use this when" triggers.
 
-One hard rule: a user-invoked skill may call model-invoked skills, never the other way round. That makes the calls from `implement` and `implement-spec` into `tdd` and `code-review` legal, while any skill that wants `project-preset-for-skills` can only phrase it as an instruction for a human to carry out.
+One hard rule: a user-invoked skill may call model-invoked skills, never the reverse. Calls from `implement` and `implement-spec` into `tdd` and `code-review` are therefore legal, while any skill needing `project-preset-for-skills` can only phrase it as an instruction for a human to carry out.
 
 ### Installing locally
 
-Two options, pick whichever suits you:
+Pick either option:
 
-1. **Local symlinks (least effort day to day)**
+1. **Local symlinks**
 
    ```bash
    bash scripts/link-skills.sh
@@ -155,9 +155,11 @@ Two options, pick whichever suits you:
 
    The script symlinks every skill directory under `skills/` into `~/.claude/skills` and `~/.agents/skills`, so a `git pull` takes effect immediately. **Caveat**: if a real directory (not a symlink) of the same name already exists at the target, the script runs `rm -rf` on it before creating the link. Check that the target holds no uncommitted local changes first.
 
-2. **Copy a single skill by hand**: copy the skill directory into the skills directory of whichever harness you use. `SKILL.md` and `agents/` must stay siblings.
+2. **Manual copy**
 
-### Typical flow
+   Copy the skill directory into the skills directory of whichever harness you use. `SKILL.md` and `agents/` must stay siblings.
+
+### Typical workflow
 
 ```text
 project-preset-for-skills (once per repo)
@@ -171,9 +173,9 @@ grill-with-docs ──► to-spec ──► to-tickets ──► implement (or i
    GLOSSARY.md / ADR                           retro (environment improvements after the session)
 ```
 
-Side paths and supplements: `prototype` turns design questions that paper cannot settle into a throwaway program; `research` hands verification work to a background agent; `diagnosing-bugs` handles problems that resist reproduction; `grill-me` and `grilling` are questioning entry points that need no files on disk; `redesign-existing-projects` stands alone for visual overhauls of existing projects.
+Side paths and supplements: `prototype` turns design questions that paper cannot settle into a throwaway program; `research` hands verification to a background agent; `diagnosing-bugs` handles problems that resist reproduction; `grill-me` and `grilling` are questioning entry points that need no files on disk; `redesign-existing-projects` stands alone for visual overhauls of existing projects.
 
-When unsure which skill to reach for, run `ask-help` first. It is the routing table for this flow.
+When unsure which skill to use, run `ask-help` first. It is the routing table for this flow.
 
 ## Maintenance
 
@@ -181,13 +183,13 @@ When unsure which skill to reach for, run `ask-help` first. It is the routing ta
 
 Under the rules in [AGENTS.md](./AGENTS.md), `engineering/` and `productivity/` are the promoted buckets, and adding a skill means updating 7 places. Miss one and the docs no longer match the implementation:
 
-1. `skills/<bucket>/<name>/SKILL.md`, frontmatter with at least `name` and `description`, plus `disable-model-invocation: true` if the skill is user-invoked.
-2. `skills/<bucket>/<name>/agents/openai.yaml` with `interface.display_name` and `interface.short_description`; add `policy.allow_implicit_invocation: false` for user-invoked skills.
-3. The bucket `README.md`: file it under User-invoked or Model-invoked, with the skill name linked to its `SKILL.md`.
-4. The matching table in both `README.md` and `README.zh-CN.md`. Both need the row, and the descriptions must say the same thing.
+1. `skills/<bucket>/<name>/SKILL.md`: frontmatter with at least `name` and `description`; add `disable-model-invocation: true` for user-invoked skills.
+2. `skills/<bucket>/<name>/agents/openai.yaml`: `interface.display_name` and `interface.short_description`; add `policy.allow_implicit_invocation: false` for user-invoked skills.
+3. The bucket `README.md`: file the skill under User-invoked or Model-invoked, with its name linked to `SKILL.md`.
+4. The matching tables in both `README.md` and `README.zh-CN.md`: both need the row, and the descriptions must agree.
 5. The `skills` array in `.claude-plugin/plugin.json`.
-6. If the skill sits on a path a user can reach, reread [ask-help](./skills/engineering/ask-help/SKILL.md) and update its routing. A missing or stale entry makes it give wrong advice.
-7. The source table in [NOTICE.md](./NOTICE.md); if the content departs from the upstream file, add a patch under `patches/` too.
+6. If the skill sits on a user-reachable path, reread [ask-help](./skills/engineering/ask-help/SKILL.md) and update its routing. A missing or stale entry leads to wrong advice.
+7. The source table in [NOTICE.md](./NOTICE.md); if the content departs from the upstream file, add a patch under `patches/`.
 
 ### Renaming or deleting
 
@@ -199,7 +201,7 @@ A delete cleans up the same places in reverse and drops the matching patch from 
 
 ```bash
 npm run changeset              # write a change description
-npm run version                # changeset version, then sync the plugin.json version
+npm run version                # run changeset version, then sync the plugin.json version
 npm run check-plugin-version   # only check that package.json and plugin.json agree
 ```
 
@@ -226,9 +228,9 @@ diff \
 
 When the first two commands print nothing, the manifest and the implementation agree. The third compares how many headings sit at each level, which is language independent: identical output means the two files still have the same shape.
 
-### Upstream sync and patch maintenance
+### Upstream sync
 
-Read [patches/README.md](./patches/README.md) before syncing with upstream. The procedure: clone the target tag with LF checkout, apply the existing patches in order, then redo the diff. Patches must be generated with LF line endings and applied with `git -c core.autocrlf=false apply`. Windows defaults to `core.autocrlf=true`, which writes the result as CRLF and makes the byte-level check fail every time.
+Read [patches/README.md](./patches/README.md) before syncing with upstream. The procedure: clone the target tag with an LF checkout, apply the existing patches in order, then redo the diff. Patches must be generated with LF line endings and applied with `git -c core.autocrlf=false apply`. Windows defaults to `core.autocrlf=true`, which writes the result as CRLF and makes the byte-level check fail every time.
 
 ## License
 
