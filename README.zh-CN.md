@@ -230,13 +230,6 @@ diff \
 
 同步上游前先读 [patches/README.md](./patches/README.md)。流程是：在 LF 检出下克隆目标标签，按序应用现有补丁，再重做差异。补丁必须以 LF 生成，并以 `git -c core.autocrlf=false apply` 应用；Windows 默认 `core.autocrlf=true` 会把结果写成 CRLF，逐字节校验必然失败。
 
-## 已知不一致
-
-以下问题在本次整理中确认存在，属于代码或技能内容层面的改动，未擅自修改，留待决定：
-
-1. `.changeset/config.json` 的 `baseBranch` 为 `main`，而本仓库当前分支为 `master`。
-2. 仓库未配置 git remote，`package.json`、`plugin.json`、`marketplace.json` 中的 `georgewuw/skills` 目前只是占位地址。
-
 ## 许可
 
 本仓库以 MIT 许可发布，见 [LICENSE](./LICENSE)。参考来源、路径与 commit 见 [NOTICE.md](./NOTICE.md)。

@@ -230,13 +230,6 @@ When the first two commands print nothing, the manifest and the implementation a
 
 Read [patches/README.md](./patches/README.md) before syncing with upstream. The procedure: clone the target tag with LF checkout, apply the existing patches in order, then redo the diff. Patches must be generated with LF line endings and applied with `git -c core.autocrlf=false apply`. Windows defaults to `core.autocrlf=true`, which writes the result as CRLF and makes the byte-level check fail every time.
 
-## Known inconsistencies
-
-These were confirmed during the last clean-up. They are code or skill content changes, so they were left alone pending a decision:
-
-1. `baseBranch` in `.changeset/config.json` is `main`, while this repo's current branch is `master`.
-2. No git remote is configured, so the `georgewuw/skills` references in `package.json`, `plugin.json` and `marketplace.json` are placeholders for now.
-
 ## License
 
 Released under the MIT licence, see [LICENSE](./LICENSE). Both upstream repositories are MIT as well; sources, paths and commits are in [NOTICE.md](./NOTICE.md).
